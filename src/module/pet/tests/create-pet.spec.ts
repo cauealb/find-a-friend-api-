@@ -55,4 +55,6 @@ describe("Create pet (unit)", () => {
             })
         }).rejects.toBeInstanceOf(InvalidPetColor)
     })
+
+    it.todo("should be able validate if org exist")
 })
