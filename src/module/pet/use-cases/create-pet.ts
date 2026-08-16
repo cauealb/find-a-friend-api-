@@ -1,12 +1,12 @@
 import type { petRepository } from "../../../repositories/pet-repository.ts";
-import type { ColorsPet, Pet, PetCreate, PetSize } from "../../../types/pet.ts";
+import type { Pet, PetSize } from "../../../types/pet.ts";
 
 interface CreatePetRequest {
     namePet: string
     age: number
-    petSize: PetSize
+    petSize: string
     available: boolean
-    color: ColorsPet
+    color: string
     idOrg: string
 }
 
@@ -22,14 +22,7 @@ export class CreatePet {
     }
 
     async execute({ namePet, age, petSize, available, color, idOrg }: CreatePetRequest): Promise<CreatePetResponse> {
-        const pet = await this.petRepository.create({
-            namePet,
-            age,
-            available,
-            color,
-            idOrg,
-            petSize
-        })
+        const pet = await this.petRepository.create({ namePet, age, available, color, idOrg, petSize })
 
         return { pet }
     }

@@ -17,9 +17,9 @@ export enum ColorsPet {
 export interface PetCreate {
     namePet: string
     age: number
-    petSize: PetSize
+    petSize: string
     available: boolean
-    color: ColorsPet
+    color: string
     idOrg: string
 }
 
