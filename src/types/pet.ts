@@ -1,17 +1,17 @@
 
-export enum PetSize {
-    "Very Small",
-    "Small",
-    "Average",
-    "Big",
-    "Very Big"
+export enum SizePet {
+    "Very Small" = "Very Small",
+    Small = "Small",
+    Average = "Average",
+    Big = "Big",
+    "Very Big" = "Very Big"
 }
 
 export enum ColorsPet {
-    "Black",
-    "White",
-    "Caramel",
-    "Striped"
+    Black = "Black",
+    White = "White",
+    Caramel = "Caramel",
+    Striped = "Striped"
 }
 
 export interface PetCreate {

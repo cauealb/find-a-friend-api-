@@ -2,7 +2,7 @@ import { describe, beforeEach, it, expect } from "vitest";
 import type { petRepository } from "../../../repositories/pet-repository.ts";
 import { CreatePet } from "../use-cases/create-pet.ts";
 import { InMemoryPetRepository } from "../../../repositories/in-memory/in-memory-pet-repository.ts";
-import type { ColorsPet, PetSize } from "../../../types/pet.ts";
+import { InvalidPetSize } from "../../../errors/invalid-pet-size-error.ts";
 
 let repository: petRepository
 let sut: CreatePet
@@ -27,5 +27,18 @@ describe("Create pet (unit)", () => {
             namePet: 'Safira',
             available: true,
         }))
+    })
+
+    it("should be able validate size of pet", async () => {
+        await expect(async () => {
+            await sut.execute({
+                namePet: 'Safira',
+                age: 2,
+                available: true,
+                color: "Caramel",
+                petSize: "invalid-size",
+                idOrg: 'org-01'
+            })
+        }).rejects.toBeInstanceOf(InvalidPetSize)
     })
 })

@@ -1,5 +1,6 @@
+import { InvalidPetSize } from "../../../errors/invalid-pet-size-error.ts";
 import type { petRepository } from "../../../repositories/pet-repository.ts";
-import type { Pet, PetSize } from "../../../types/pet.ts";
+import { SizePet, type Pet } from "../../../types/pet.ts";
 
 interface CreatePetRequest {
     namePet: string
@@ -22,6 +23,10 @@ export class CreatePet {
     }
 
     async execute({ namePet, age, petSize, available, color, idOrg }: CreatePetRequest): Promise<CreatePetResponse> {
+        if(!Object.values(SizePet).includes(petSize as SizePet)) {
+            throw new InvalidPetSize()
+        }
+
         const pet = await this.petRepository.create({ namePet, age, available, color, idOrg, petSize })
 
         return { pet }
