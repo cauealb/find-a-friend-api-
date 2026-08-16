@@ -24,5 +24,5 @@ export interface PetCreate {
 }
 
 export interface Pet extends PetCreate {
-    idPet: string
+    idPet?: string
 }
