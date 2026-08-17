@@ -7,5 +7,5 @@ export interface OrgCreate {
 }
 
 export interface Org extends OrgCreate {
-    idOrg: string
+    idOrg?: string
 }

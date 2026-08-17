@@ -5,7 +5,7 @@ Nesse projeto você irá criar a API do FindAFriend, um sistema de adoção de a
 - [x] O cadastro de um pet
 - [ ] A listagem de todos os pets disponíveis para adoção em uma determinada cidade
 - [ ] A filtragem de pets com base em suas características (como idade, porte, etc.)
-- [ ] A visualização dos detalhes de um pet específico
+- [x] A visualização dos detalhes de um pet específico
 - [ ] O cadastro de uma ORG (organização)
 - [ ] O login de uma ORG no sistema
 
