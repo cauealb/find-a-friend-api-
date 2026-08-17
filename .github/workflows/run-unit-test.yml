@@ -5,14 +5,14 @@ on: [push]
 jobs:
   run-unit-test:
     name: Unit tests
-    runs-on: ubunto-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          - node-version: 24
-          - cache: 'npm'
+          node-version: 24
+          cache: 'npm'
 
       - run: npm ci
       - run: npm run test
