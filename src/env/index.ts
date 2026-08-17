@@ -2,7 +2,9 @@ import 'dotenv/config.js'
 import z from 'zod'
 
 const schema = z.object({
-    PORT: z.coerce.number().default(7777)
+    PORT: z.coerce.number().default(7777),
+    SALT: z.coerce.number().min(1),
+    JWT_SECRET: z.string()
 })
 
 const _env = schema.safeParse(process.env)
