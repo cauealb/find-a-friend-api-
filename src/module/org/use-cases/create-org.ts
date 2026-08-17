@@ -1,5 +1,7 @@
+import { env } from "../../../env/index.ts";
 import type { orgRepository } from "../../../repositories/org-repository.ts";
 import type { Org } from "../../../types/org.ts";
+import { hash } from "bcrypt";
 
 interface CreateOrgRequest {
     nameOrg: string,
@@ -21,7 +23,9 @@ export class CreateOrg {
     }
 
     async execute({ nameOrg, email, password, address, number }: CreateOrgRequest): Promise<CreateOrgResponse> {
-        const org = await this.orgRepository.create({ nameOrg, email, password, address, number })
+        const hashPassword = await hash(password, env.JWT_SECRET)
+
+        const org = await this.orgRepository.create({ nameOrg, email, password: hashPassword, address, number })
 
         return { org }
     }
