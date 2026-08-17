@@ -23,7 +23,7 @@ export class CreateOrg {
     }
 
     async execute({ nameOrg, email, password, address, number }: CreateOrgRequest): Promise<CreateOrgResponse> {
-        const hashPassword = await hash(password, env.JWT_SECRET)
+        const hashPassword = await hash(password, env.SALT)
 
         const org = await this.orgRepository.create({ nameOrg, email, password: hashPassword, address, number })
 
