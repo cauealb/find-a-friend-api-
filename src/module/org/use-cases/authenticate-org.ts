@@ -1,3 +1,5 @@
+import { InvalidCredentialsError } from "../../../errors/invalid-credentials-error.ts";
+import { ResourceNotFoundError } from "../../../errors/resource-not-found-error.ts";
 import type { orgRepository } from "../../../repositories/org-repository.ts";
 import type { Org } from "../../../types/org.ts";
 import { compare } from 'bcrypt'
@@ -22,12 +24,14 @@ export class AuthenticateOrg {
         const org = await this.orgRepository.findByEmail(email);
 
         if(!org) {
-            throw new Error()
+            throw new ResourceNotFoundError()
         }
+
+        
 
         const isPasswordMatches = await compare(password, org.password)
         if(!isPasswordMatches) {
-            throw new Error()
+            throw new InvalidCredentialsError()
         }
 
         return { org }
