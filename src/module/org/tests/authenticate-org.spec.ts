@@ -32,4 +32,19 @@ describe("Authenticate org (unit)", () => {
             password,
         }))
     })
+
+    it("should be able validate invalid password", async () => {
+        const email = 'cauealvesdev@gmail.com'
+        const password = '1234567'
+
+        const user = repository.create({
+            nameOrg: 'Cauê Alves Org',
+            email,
+            password,
+            address: 'Rua tal tal, 12',
+            number: '11999999999',
+        })
+
+        await expect(async () => await sut.execute({ email, password: 'invalid-password' })).rejects.toBeInstanceOf(Error)
+    })
 })
