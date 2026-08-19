@@ -13,4 +13,12 @@ export class InMemoryOrgRepository implements orgRepository {
         this.item.push(org)
         return org
     }
+
+    async findByEmail(email: string): Promise<Org | null> {
+        const org = this.item.find(item => item.email === email)
+
+        if(!org) return null
+
+        return org
+    }
 }
