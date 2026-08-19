@@ -27,8 +27,6 @@ export class AuthenticateOrg {
             throw new ResourceNotFoundError()
         }
 
-        
-
         const isPasswordMatches = await compare(password, org.password)
         if(!isPasswordMatches) {
             throw new InvalidCredentialsError()
