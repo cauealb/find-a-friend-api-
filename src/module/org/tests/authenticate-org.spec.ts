@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { orgRepository } from "../../../repositories/org-repository.ts";
 import { AuthenticateOrg } from "../use-cases/authenticate-org.ts";
 import { InMemoryOrgRepository } from "../../../repositories/in-memory/in-memory-org-repository.ts";
+import { hash } from 'bcrypt'
+import { env } from "../../../env/index.ts";
 
 let repository: orgRepository
 let sut: AuthenticateOrg
@@ -16,10 +18,10 @@ describe("Authenticate org (unit)", () => {
         const email = 'cauealvesdev@gmail.com'
         const password = '1234567'
 
-        const user = repository.create({
+        await repository.create({
             nameOrg: 'Cauê Alves Org',
             email,
-            password,
+            password: await hash(password, env.SALT),
             address: 'Rua tal tal, 12',
             number: '11999999999',
         })
@@ -29,15 +31,14 @@ describe("Authenticate org (unit)", () => {
         expect(org).toEqual(expect.objectContaining({
             nameOrg: 'Cauê Alves Org',
             email,
-            password,
         }))
     })
 
     it("should be able validate invalid password", async () => {
         const email = 'cauealvesdev@gmail.com'
-        const password = '1234567'
+        const password = await hash('1234567', env.SALT)
 
-        const user = repository.create({
+        repository.create({
             nameOrg: 'Cauê Alves Org',
             email,
             password,

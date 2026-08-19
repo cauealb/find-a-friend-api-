@@ -1,5 +1,6 @@
 import type { orgRepository } from "../../../repositories/org-repository.ts";
 import type { Org } from "../../../types/org.ts";
+import { compare } from 'bcrypt'
 
 interface AuthenticateOrgRequest {
     email: string
@@ -21,6 +22,11 @@ export class AuthenticateOrg {
         const org = await this.orgRepository.findByEmail(email);
 
         if(!org) {
+            throw new Error()
+        }
+
+        const isPasswordMatches = await compare(password, org.password)
+        if(!isPasswordMatches) {
             throw new Error()
         }
 
