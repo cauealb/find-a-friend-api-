@@ -3,17 +3,31 @@ import type { petRepository } from "../../../repositories/pet-repository.ts";
 import { FindAvailablePetsInTheCities } from "../use-cases/find-available-pets-in-the-cities.ts";
 import { InMemoryPetRepository } from "../../../repositories/in-memory/in-memory-pet-repository.ts";
 import { InMemoryOrgRepository } from "../../../repositories/in-memory/in-memory-org-repository.ts";
+import type { orgRepository } from "../../../repositories/org-repository.ts";
 
+let orgRepository: InMemoryOrgRepository
 let petRepository: petRepository
 let sut: FindAvailablePetsInTheCities
 
 describe("Find available pets in the cities (unit)", () => {
     beforeEach(() => {
-        petRepository = new InMemoryPetRepository(new InMemoryOrgRepository())
+        orgRepository = new InMemoryOrgRepository()
+
+        petRepository = new InMemoryPetRepository(orgRepository)
         sut = new FindAvailablePetsInTheCities(petRepository)
     })
 
-    it.todo("should be able find available pets in the cities", async () => {
+    it("should be able find available pets in the cities", async () => {
+        await orgRepository.create({
+            idOrg: 'org-01',
+            nameOrg: 'Cauê Alves Org',
+            email: 'cauealvesdev@gmail.com',
+            password: '1234567',
+            address: 'Rua tal tal, 12',
+            city: 'São Paulo',
+            number: '11999999999',
+        })
+
         await petRepository.create({
             namePet: 'Safira',
             age: 2,
@@ -33,7 +47,7 @@ describe("Find available pets in the cities (unit)", () => {
         })
 
         const { pets } = await sut.execute({ city: "São Paulo" })
-        
+
         expect(pets).toHaveLength(2)
         expect(pets).toEqual([
             expect.objectContaining({
