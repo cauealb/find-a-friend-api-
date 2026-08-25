@@ -4,13 +4,14 @@ import { CreatePet } from "../use-cases/create-pet.ts";
 import { InMemoryPetRepository } from "../../../repositories/in-memory/in-memory-pet-repository.ts";
 import { InvalidPetSize } from "../../../errors/invalid-pet-size-error.ts";
 import { InvalidPetColor } from "../../../errors/invalid-pet-color-error.ts";
+import { InMemoryOrgRepository } from "../../../repositories/in-memory/in-memory-org-repository.ts";
 
 let repository: petRepository
 let sut: CreatePet
 
 describe("Create pet (unit)", () => {
     beforeEach(() => {
-        repository = new InMemoryPetRepository()
+        repository = new InMemoryPetRepository(new InMemoryOrgRepository())
         sut = new CreatePet(repository)
     })
 
