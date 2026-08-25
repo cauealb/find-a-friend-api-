@@ -1,5 +1,4 @@
 import type { Pet } from "../../types/pet.ts";
-import type { orgRepository } from "../org-repository.ts";
 import type { petRepository } from "../pet-repository.ts";
 import type { InMemoryOrgRepository } from "./in-memory-org-repository.ts";
 
