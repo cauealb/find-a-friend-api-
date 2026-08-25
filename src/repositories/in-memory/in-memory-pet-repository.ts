@@ -1,8 +1,15 @@
-import type { PetCreate, Pet } from "../../types/pet.ts";
+import type { Pet } from "../../types/pet.ts";
+import type { orgRepository } from "../org-repository.ts";
 import type { petRepository } from "../pet-repository.ts";
+import type { InMemoryOrgRepository } from "./in-memory-org-repository.ts";
 
 export class InMemoryPetRepository implements petRepository {
     private item: Pet[] = []
+    private readonly InMemoryOrgRepository: InMemoryOrgRepository
+
+    constructor(InMemoryOrgRepository: InMemoryOrgRepository) {
+        this.InMemoryOrgRepository = InMemoryOrgRepository
+    }
 
     async create(data: Pet) {
         const pet = {
@@ -20,5 +27,15 @@ export class InMemoryPetRepository implements petRepository {
         if(!pet) return null
 
         return pet
+    }
+
+    async findAvailablePetsInTheCities(city: string) {
+        return this.item.filter(pet => {
+            const org = this.InMemoryOrgRepository.item.find(
+                o => o.idOrg === pet.idOrg
+            )
+
+            return pet.available && org?.city === city
+        })
     }
 }
