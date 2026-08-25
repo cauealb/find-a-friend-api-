@@ -58,4 +58,72 @@ describe("Find available pets in the cities (unit)", () => {
             })
         ])
     })
+
+    it("should be able find nothing pets", async () => {
+        await orgRepository.create({
+            idOrg: 'org-01',
+            nameOrg: 'Cauê Alves Org',
+            email: 'cauealvesdev@gmail.com',
+            password: '1234567',
+            address: 'Rua tal tal, 12',
+            city: 'São Paulo',
+            number: '11999999999',
+        })
+
+        await petRepository.create({
+            namePet: 'Safira',
+            age: 2,
+            available: true,
+            color: "Caramel",
+            petSize: "Average",
+            idOrg: 'org-02'
+        })
+
+        await petRepository.create({
+            namePet: 'Lili',
+            age: 3,
+            available: true,
+            color: "Striped",
+            petSize: "Average",
+            idOrg: 'org-02'
+        })
+
+        const { pets } = await sut.execute({ city: "São Paulo" })
+
+        expect(pets).toHaveLength(0)
+    })
+
+    it("should be able find only one pets", async () => {
+        await orgRepository.create({
+            idOrg: 'org-01',
+            nameOrg: 'Cauê Alves Org',
+            email: 'cauealvesdev@gmail.com',
+            password: '1234567',
+            address: 'Rua tal tal, 12',
+            city: 'São Paulo',
+            number: '11999999999',
+        })
+
+        await petRepository.create({
+            namePet: 'Safira',
+            age: 2,
+            available: true,
+            color: "Caramel",
+            petSize: "Average",
+            idOrg: 'org-01'
+        })
+
+        await petRepository.create({
+            namePet: 'Lili',
+            age: 3,
+            available: true,
+            color: "Striped",
+            petSize: "Average",
+            idOrg: 'org-02'
+        })
+
+        const { pets } = await sut.execute({ city: "São Paulo" })
+
+        expect(pets).toHaveLength(1)
+    })
 })
