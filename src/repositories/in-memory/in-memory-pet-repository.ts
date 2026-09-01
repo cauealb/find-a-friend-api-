@@ -1,5 +1,5 @@
 import type { Pet } from "../../types/pet.ts";
-import type { petRepository } from "../pet-repository.ts";
+import type { findPetByCharacteristicsRequest, petRepository } from "../pet-repository.ts";
 import type { InMemoryOrgRepository } from "./in-memory-org-repository.ts";
 
 export class InMemoryPetRepository implements petRepository {
@@ -36,5 +36,9 @@ export class InMemoryPetRepository implements petRepository {
 
             return pet.available && org?.city === city
         })
+    }
+
+    async findPetByCharacteristics({ age, color, size }: findPetByCharacteristicsRequest): Promise<Pet[]> {
+        return this.item.filter(item => item.age === age || item.color === color || item.petSize === size)
     }
 }
