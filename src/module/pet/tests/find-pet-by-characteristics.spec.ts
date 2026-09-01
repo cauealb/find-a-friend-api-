@@ -64,4 +64,21 @@ describe("Find pet by characteristics (unit)", () => {
             })
         ])
     })
+
+    it("should be able find nothing pet", async () => {
+        const { pets } = await sut.execute({ age: null, color: null, size: null })
+
+        expect(pets).toHaveLength(0)
+    })
+
+    it("should be able find with more filters", async () => {
+        const { pets } = await sut.execute({ age: 2, color: "Caramel", size: null })
+
+        expect(pets).toHaveLength(1)
+        expect(pets).toEqual([
+            expect.objectContaining({
+                namePet: 'Safira'
+            })
+        ])
+    })
 })
