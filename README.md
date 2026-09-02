@@ -11,9 +11,9 @@ Nesse projeto você irá criar a API do FindAFriend, um sistema de adoção de a
 
 # Regras de negócio
 
-- [ ] A informação da cidade é obrigatória para listar os pets
+- [x] A informação da cidade é obrigatória para listar os pets
 - [x] Uma ORG deve, obrigatoriamente, ter um endereço e um número de WhatsApp
 - [x] Todo pet cadastrado precisa estar vinculado a uma ORG
-- [ ] O contato do usuário interessado em adotar um pet será feito diretamente com a ORG via WhatsApp
-- [ ] Todos os filtros de características do pet, com exceção da cidade, são opcionais
+- [x] O contato do usuário interessado em adotar um pet será feito diretamente com a ORG via WhatsApp
+- [x] Todos os filtros de características do pet, com exceção da cidade, são opcionais
 - [ ] Para que uma ORG tenha acesso administrativo à aplicação, ela deve estar logada

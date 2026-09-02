@@ -9,6 +9,7 @@ interface CreateOrgRequest {
     password: string
     address: string
     number: string
+    city: string
 }
 
 interface CreateOrgResponse {
@@ -22,10 +23,10 @@ export class CreateOrg {
         this.orgRepository = repository
     }
 
-    async execute({ nameOrg, email, password, address, number }: CreateOrgRequest): Promise<CreateOrgResponse> {
+    async execute({ nameOrg, email, password, address, number, city }: CreateOrgRequest): Promise<CreateOrgResponse> {
         const hashPassword = await hash(password, env.SALT)
 
-        const org = await this.orgRepository.create({ nameOrg, email, password: hashPassword, address, number })
+        const org = await this.orgRepository.create({ nameOrg, email, password: hashPassword, address, number, city })
 
         return { org }
     }
