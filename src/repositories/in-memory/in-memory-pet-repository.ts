@@ -38,7 +38,15 @@ export class InMemoryPetRepository implements petRepository {
         })
     }
 
-    async findPetByCharacteristics({ age, color, size }: findPetByCharacteristicsRequest): Promise<Pet[]> {
-        return this.item.filter(item => item.age === age || item.color === color || item.petSize === size)
+    async findPetByCharacteristics({ age, color, size, city }: findPetByCharacteristicsRequest): Promise<Pet[]> {
+        return this.item.filter(pet => {
+            const org = this.InMemoryOrgRepository.item.find(org => org.idOrg === pet.idOrg)
+            
+            if(org?.city === city) {
+                if(!age && !color && !size) return pet
+
+                return (pet.age === age || pet.color === color || pet.petSize === size)
+            }
+        })
     }
 }

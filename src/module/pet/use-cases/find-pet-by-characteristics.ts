@@ -1,3 +1,4 @@
+import { InvalidCityError } from "../../../errors/invalid-city-error.ts";
 import type { petRepository } from "../../../repositories/pet-repository.ts";
 import type { Pet } from "../../../types/pet.ts";
 
@@ -5,6 +6,7 @@ interface FindPetByCharacteristicsRequest {
     age: number | null
     color: string | null
     size: string | null
+    city: string
 }
 
 interface FindPetByCharacteristicsResponse {
@@ -18,8 +20,12 @@ export class FindPetByCharacteristics {
         this.petRepository = repository
     }
 
-    async execute({ age, color, size }: FindPetByCharacteristicsRequest): Promise<FindPetByCharacteristicsResponse> {
-        const pets = await this.petRepository.findPetByCharacteristics({ age, color, size })
+    async execute({ age, color, size, city }: FindPetByCharacteristicsRequest): Promise<FindPetByCharacteristicsResponse> {
+        if(city.length < 1) {
+            throw new InvalidCityError()
+        }
+
+        const pets = await this.petRepository.findPetByCharacteristics({ age, color, size, city })
 
         return { pets }
     }
