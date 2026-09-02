@@ -4,14 +4,29 @@ import { CreatePet } from "../use-cases/create-pet.ts";
 import { InMemoryPetRepository } from "../../../repositories/in-memory/in-memory-pet-repository.ts";
 import { InvalidPetSize } from "../../../errors/invalid-pet-size-error.ts";
 import { InvalidPetColor } from "../../../errors/invalid-pet-color-error.ts";
+import { InMemoryOrgRepository } from "../../../repositories/in-memory/in-memory-org-repository.ts";
+import type { orgRepository } from "../../../repositories/org-repository.ts";
+import { InvalidOrg } from "../../../errors/invalid-org-error.ts";
 
-let repository: petRepository
+let petRepository: petRepository
+let orgRepository: orgRepository
 let sut: CreatePet
 
 describe("Create pet (unit)", () => {
-    beforeEach(() => {
-        repository = new InMemoryPetRepository()
-        sut = new CreatePet(repository)
+    beforeEach(async () => {
+        orgRepository = new InMemoryOrgRepository()
+        petRepository = new InMemoryPetRepository(new InMemoryOrgRepository())
+
+        sut = new CreatePet(petRepository, orgRepository)
+
+        await orgRepository.create({
+            nameOrg: 'Cauê Alves Org',
+            email: 'cauealvesdev@gmail.com',
+            password: '1234567',
+            address: 'Rua tal tal, 12',
+            city: 'São Paulo',
+            number: '11999999999',
+        })
     })
 
     it("should be able create a pet", async () => {
@@ -56,5 +71,16 @@ describe("Create pet (unit)", () => {
         }).rejects.toBeInstanceOf(InvalidPetColor)
     })
 
-    it.todo("should be able validate if org exist")
+    it("should be able validate if org exist", async () => {
+        await expect(async () => {
+            await sut.execute({
+                namePet: 'Safira',
+                age: 2,
+                available: true,
+                color: "White",
+                petSize: "Average",
+                idOrg: 'invalid-org'
+            })
+        }).rejects.toBeInstanceOf(InvalidOrg)
+    })
 })

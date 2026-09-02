@@ -3,6 +3,7 @@ export interface OrgCreate {
     email: string
     password: string
     address: string
+    city: string
     number: string
 }
 

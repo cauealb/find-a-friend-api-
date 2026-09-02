@@ -2,13 +2,14 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { petRepository } from "../../../repositories/pet-repository.ts";
 import { FindPetById } from "../use-cases/find-pet-by-id.ts";
 import { InMemoryPetRepository } from "../../../repositories/in-memory/in-memory-pet-repository.ts";
+import { InMemoryOrgRepository } from "../../../repositories/in-memory/in-memory-org-repository.ts";
 
 let repository: petRepository
 let sut: FindPetById
 
 describe("Find pet by id (unit)", () => {
     beforeEach(() => {
-        repository = new InMemoryPetRepository()
+        repository = new InMemoryPetRepository(new InMemoryOrgRepository())
         sut = new FindPetById(repository)
     })
 
