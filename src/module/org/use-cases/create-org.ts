@@ -8,7 +8,7 @@ interface CreateOrgRequest {
     email: string
     password: string
     address: string
-    number: string
+    number: number
     city: string
 }
 
