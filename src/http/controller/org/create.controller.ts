@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { MakeCreate } from "../../../module/org/factories/make-create.ts";
+import { env } from "../../../env/index.ts";
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
     const schemaCreate = z.object({
@@ -40,7 +41,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     reply.setCookie('refresh', refreshToken, {
         path: '/',
         httpOnly: true,
-        secure: false,
+        secure: env.NODE_ENV === 'prod',
         sameSite: true,
     })
 

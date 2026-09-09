@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { env } from "../../../env/index.ts";
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     console.log(request.cookies)
@@ -26,7 +27,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
 
     reply.setCookie('refresh', refreshToken, {
         path: '/',
-        secure: false,
+        secure: env.NODE_ENV === 'prod',
         sameSite: true,
         httpOnly: true
     })
