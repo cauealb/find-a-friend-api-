@@ -1,7 +1,7 @@
 import fastify from "fastify";
 import fastifyJwt from "@fastify/jwt";
 import { env } from "./src/env/index.ts";
-import { orgRoutes } from "./src/http/org/routes.ts";
+import { orgRoutes } from "./src/http/controller/org/routes.ts";
 import fastifyCookie from "@fastify/cookie";
 const app = fastify()
 

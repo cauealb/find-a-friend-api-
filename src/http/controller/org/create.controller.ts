@@ -1,7 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { MakeCreate } from "../../module/org/factories/make-create.ts";
-import { REPL_MODE_SLOPPY } from "node:repl";
+import { MakeCreate } from "../../../module/org/factories/make-create.ts";
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
     const schemaCreate = z.object({
@@ -13,12 +12,13 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
         city: z.string()
     })
 
-    const { nameOrg, email, password, address, number, city } = schemaCreate.parse(request.body)
 
+    const { nameOrg, email, password, address, number, city } = schemaCreate.parse(request.body)
+    
     const useCase = MakeCreate()
     const {org} = await useCase.execute({ nameOrg, email, password, address, number, city })
 
-    await reply.jwtSign(
+    const token = await reply.jwtSign(
         {
             sign: {
                 sub: org.idOrg!,
@@ -43,5 +43,5 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
         secure: true,
         sameSite: true,
     })
-    return reply.status(201).send(org)
+    return reply.status(201).send({org, token})
 }
