@@ -40,8 +40,11 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     reply.setCookie('refresh', refreshToken, {
         path: '/',
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: true,
     })
+
+    console.log(request.headers)
+
     return reply.status(201).send({org, token})
 }
