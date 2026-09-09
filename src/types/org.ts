@@ -4,7 +4,7 @@ export interface OrgCreate {
     password: string
     address: string
     city: string
-    number: string
+    number: number
 }
 
 export interface Org extends OrgCreate {
